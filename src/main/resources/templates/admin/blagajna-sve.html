@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	layout:decorator="layout">
+<head>
+<link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/font-awesome-4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/styles.css}" />
+<title>Blagajne</title>
+</head>
+<body>
+
+
+
+<div layout:fragment="content">
+	<h3 class="centrirano">Sve Blagajne</h3>
+	
+	<div sec:authorize="hasRole('ADMIN')">
+			<h5>ADMIN PAGE</h5>
+	</div>
+	
+	<div class="row">		
+
+<div class="col-md-7">
+		<h4>Pretraga blagajni:</h4>
+	
+ <form th:object="${blagajne}"  th:action="@{/admin/blagajne}" method="get">   
+
+    <div class="form-group">
+        <input type="text" name="datum" id="datum" th:value="${datum}" placeholder="Datum"/>
+    </div>
+    <div class="form-group">
+        <input type="text" name="ukupno" id="ukupno" th:value="${ukupno}" placeholder="Ukupno"/>
+    </div>
+   
+    <div class="form-group">    
+        <input type="submit" value="Search"/>  
+    </div>    
+    
+</form>    
+</div>
+
+		
+
+</div>   
+	
+	
+<div th:if="${not #lists.isEmpty(blagajne)}">   
+<div class="col-12">
+<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th>ID</th>
+						<th>Datum</th>
+				  	    <th>Ukupno</th>   	
+				  	    <th>Closed</th>  	
+						<th sec:authorize="hasRole('ADMIN')">Izmeni</th>
+						<th sec:authorize="hasRole('ADMIN')">Obrisi</th>
+					</tr>
+				</thead>
+				<tbody class="redovi">
+					<tr th:each ="blagajne : ${blagajne}">
+						<td th:utext="${blagajne.id}"></td>
+						<td th:utext="${blagajne.datum}"></td>
+						<td th:utext="${blagajne.ukupno}"></td>   
+						<td th:utext="${blagajne.closed}"></td> 
+
+<td sec:authorize="hasRole('ADMIN')"> <a th:href="@{/admin/editblagajna/{id}(id=${blagajne.id})}" class="btn btn-success btn-sm" role="button">Update</a> </td>
+<td sec:authorize="hasRole('ADMIN')"> <a th:href="@{/admin/deleteblagajna/{id}(id=${blagajne.id})}" class="btn btn-danger btn-sm" role="button">Delete</a> </td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+			
+<nav aria-label="Pagination" th:if="${blagajne.totalPages gt 0}">
+    <ul class="pagination justify-content-center font-weight-medium">
+        <li class="page-item" th:classappend="${blagajne.number eq 0} ? 'disabled'">
+            <a class="page-link svg-icon"
+               th:href="@{/admin/blagajne?page={id}(id=${blagajne.number lt 2 ? 1 : blagajne.number})}"
+               aria-label="Previous"
+               title="Previous Page" rel="tooltip">
+                <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${i eq blagajne.number + 1} ? 'active'"
+            th:each="i : ${#numbers.sequence( blagajne.number + 1, blagajne.totalPages > 10 + blagajne.number ? blagajne.number + 10 : blagajne.totalPages, 1)}">
+            <a class="page-link" th:href="@{/admin/blagajne?page={id}(id=${i})}" th:text="${i}"
+               th:title="${'Page '+ i}"
+               rel="tooltip"></a>
+        </li>
+        <li class="page-item disabled" th:if="${blagajne.number + 10 < blagajne.totalPages}">
+            <a class="page-link svg-icon" href="#">
+                <span data-feather="more-horizontal" width="20" height="20"></span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${blagajne.number + 1 eq blagajne.totalPages} ? 'disabled'">
+            <a class="page-link svg-icon" th:href="@{/admin/blagajne?page={id}(id=${blagajne.number + 2})}"
+               aria-label="Next"
+               title="Next Page" rel="tooltip">
+                <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+</div>			
+</div>	
+	
+	<br/>	
+
+	</div>   
+
+	<script th:src="@{'/assets/js/jquery-2.1.4.min.js'}"></script>
+	<script th:src="@{'/assets/bootstrap/js/bootstrap.min.js'}"></script>
+</body>
+</html>

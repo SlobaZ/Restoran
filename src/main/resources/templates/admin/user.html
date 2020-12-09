@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	layout:decorator="layout">
+<head>
+<link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/font-awesome-4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/styles.css}" />
+<title>Konobari</title>
+</head>
+<body>
+
+
+
+<div layout:fragment="content">
+	<h3 class="centrirano">Konobari</h3>
+	
+	<div sec:authorize="hasRole('ADMIN')">
+			<h5>ADMIN PAGE</h5>
+	</div>
+	
+	<div class="row">
+	
+	<div class="col-md-7">
+		<h4>Pretraga konobara:</h4>
+		
+    <form th:object="${users}" th:action="@{/admin/users}" method="get">
+    <div class="form-group">
+        <input type="text" name="username" id="username" th:value="${username}" placeholder="Username"/>
+    </div>
+    <div class="form-group">    
+        <input type="submit" value="Search"/>  
+    </div>      
+    </form>
+    </div> 
+    
+    
+    
+    <div class="col-md-5" sec:authorize="hasRole('ADMIN')">
+	<br/>
+	<h3 class="centrirano">Unos novog konobara:</h3>
+	<br/>
+	<div class="centrirano">
+
+	<form th:action="@{/registration}" method="get">
+    <button class="btn btn-warning btn-lg" type="Submit">+ Add New </button>
+	</form>
+
+	</div>
+	</div>  
+	
+	</div>    
+
+	<br/>
+	
+	
+<div th:if="${not #lists.isEmpty(users)}">   
+<div class="col-12">
+<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th>id</th>
+						<th>Username</th>
+						<th sec:authorize="hasRole('ADMIN')">Izmeni</th>
+						<th sec:authorize="hasRole('ADMIN')">Obrisi</th>
+					</tr>
+				</thead>
+				<tbody class="redovi">
+					<tr th:each ="users : ${users}">
+					<td th:utext="${users.id}"></td>
+						<td th:utext="${users.username}"></td>	
+
+<td sec:authorize="hasRole('ADMIN')"> <a th:href="@{/admin/edituser/{id}(id=${users.id})}" class="btn btn-success btn-sm" role="button">Update</a> </td>
+<td sec:authorize="hasRole('ADMIN')"> <a th:href="@{/admin/deleteuser/{id}(id=${users.id})}" class="btn btn-danger btn-sm" role="button">Delete</a> </td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+			
+<nav aria-label="Pagination" th:if="${users.totalPages gt 0}">
+    <ul class="pagination justify-content-center font-weight-medium">
+        <li class="page-item" th:classappend="${users.number eq 0} ? 'disabled'">
+            <a class="page-link svg-icon"
+               th:href="@{/admin/users?page={id}(id=${users.number lt 2 ? 1 : users.number})}"
+               aria-label="Previous"
+               title="Previous Page" rel="tooltip">
+                <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${i eq users.number + 1} ? 'active'"
+            th:each="i : ${#numbers.sequence( users.number + 1, users.totalPages > 10 + users.number ? users.number + 10 : users.totalPages, 1)}">
+            <a class="page-link" th:href="@{/admin/users?page={id}(id=${i})}" th:text="${i}"
+               th:title="${'Page '+ i}"
+               rel="tooltip"></a>
+        </li>
+        <li class="page-item disabled" th:if="${users.number + 10 < users.totalPages}">
+            <a class="page-link svg-icon" href="#">
+                <span data-feather="more-horizontal" width="20" height="20"></span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${users.number + 1 eq users.totalPages} ? 'disabled'">
+            <a class="page-link svg-icon" th:href="@{/admin/users?page={id}(id=${users.number + 2})}"
+               aria-label="Next"
+               title="Next Page" rel="tooltip">
+                <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+</div>			
+</div>
+			
+</div>    
+
+
+
+	<script th:src="@{'/assets/js/jquery-2.1.4.min.js'}"></script>
+	<script th:src="@{'/assets/bootstrap/js/bootstrap.min.js'}"></script>
+</body>
+</html>

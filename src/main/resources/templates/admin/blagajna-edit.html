@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Blagajna</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
+ 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<br/>
+
+<div class="container">
+<br/>
+<form th:action="@{/admin/blagajne}" method="get">
+    <button class="btn btn-lg btn-primary btn-block" type="Submit">GO BACK</button>
+</form>
+    <h2>Edit Blagajna</h2>
+    <form action="#" th:action="@{/admin/editBlagajna}" method="post" th:object="${blagajna}">
+        Datum:<br/>
+        <label th:if="${#fields.hasErrors('datum')}" th:errors="*{datum}" class="validation-message">Datum</label>
+        <input type="text" class="form-control" id="datum" th:field="*{datum}" placeholder="Datum"/>
+        <br/>
+        Ukupno:<br/>
+        <label th:if="${#fields.hasErrors('ukupno')}" th:errors="*{ukupno}" class="validation-message">Ukupno</label>
+        <input type="number" class="form-control" id="ukupno" th:field="*{ukupno}" placeholder="Ukupno"/>
+        <br/>
+        Closed:<br/>
+        <label th:if="${#fields.hasErrors('closed')}" th:errors="*{closed}" class="validation-message">Closed</label>
+        <input type="text" class="form-control" id="closed" th:field="*{closed}" placeholder="Closed"/>
+        <br/>
+             
+        <input type="hidden" id="id" th:field="*{id}">
+        <br/>
+        <button type="submit" class="btn btn-info">Edit</button>
+        <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
+    </form>
+</div>
+
+	<script th:src="@{'/assets/js/jquery-2.1.4.min.js'}"></script>
+	<script th:src="@{'/assets/bootstrap/js/bootstrap.min.js'}"></script>
+
+</body>
+</html>

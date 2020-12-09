@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	layout:decorator="layout">
+<head>
+<link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/font-awesome-4.5.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/styles.css}" />
+<title>Rezultat Porudzbine</title>
+</head>
+<body>
+
+
+
+<div layout:fragment="content">
+
+
+<div class="row">		
+<div class="col-md-12">		
+<form>
+<h3 th:utext="${pozdravnaPorukaUseru}"></h3>
+<p>Uspesno obavljena porudzbina broj:</p>
+<h4 th:utext="${porudzbina.id}"></h4>		
+</form>	
+</div>
+
+
+<div class="col-md-12">	
+<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th>Jedinica</th>
+						<th>Cena </th>
+						<th>Kategorija</th>
+					</tr>
+				</thead>
+ 
+				<tbody class="redovi">
+					<tr th:each ="poruceneJediniceRezultat : ${poruceneJediniceRezultat}">
+						<td th:utext="${poruceneJediniceRezultat.naziv}"></td>
+						<td th:utext="${poruceneJediniceRezultat.cena}"> din</td>		
+   						<td th:utext="${poruceneJediniceRezultat.kategorija}"> </td> 
+					</tr>
+					<tr style="border=1px solid black">
+						<td></td>
+						<td><h3>Ukupno:</h3></td>
+						<td><h3 th:utext="${porudzbina.ukupnaCena}"></h3></td>
+					</tr>
+				</tbody>
+				
+</table>
+</div>
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+	<script th:src="@{'/assets/js/jquery-2.1.4.min.js'}"></script>
+	<script th:src="@{'/assets/bootstrap/js/bootstrap.min.js'}"></script>
+</body>
+</html>
