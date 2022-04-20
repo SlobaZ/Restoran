@@ -18,7 +18,6 @@ public interface BlagajnaService {
 	
 	Page<Blagajna> search(
 			@Param("datum") String datum, 
-			@Param("ukupno") Double ukupno, 
 			 int pageNum);
 	
 	Blagajna findByDatum(String datum);	

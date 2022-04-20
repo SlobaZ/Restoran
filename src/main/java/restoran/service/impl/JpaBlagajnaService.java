@@ -48,9 +48,9 @@ public class JpaBlagajnaService implements BlagajnaService {
 	}
 	
 	@Override
-	public Page<Blagajna> search(String datum, Double ukupno, int pageNum) {
+	public Page<Blagajna> search(String datum, int pageNum) {
 		PageRequest pageable = PageRequest.of(pageNum, 5);
-		return blagajnaRepository.search(datum, ukupno, pageable);
+		return blagajnaRepository.search(datum, pageable);
 	}
 
 	@Override

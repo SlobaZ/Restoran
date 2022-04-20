@@ -178,16 +178,17 @@ public class PorudzbineController implements DatumIVreme {
 					size = Integer.parseInt(request.getParameter("size"));
 				}
 
-			    if (datum != null) {
+			    if (datum != "") {
 			    	if(user.getRoles().contains(role)) {
 			    		porudzbinaPage = porudzbinaService.svePoDatumu(datum, page);
 			    	}
 			    	else {
 			    		porudzbinaPage = porudzbinaService.search(datum, userId, page);
 			    	}
+			    	
 			    }
 			    
-			    else {
+			    if (datum == "") {
 			    	if(user.getRoles().contains(role)) {
 			    		porudzbinaPage = porudzbinaService.findAll(page);
 			    	}
@@ -195,6 +196,8 @@ public class PorudzbineController implements DatumIVreme {
 			    		porudzbinaPage = porudzbinaRepository.findByIdUsera(userId, PageRequest.of(page, size));
 			    	}
 			    }
+			    
+			    
 
 		  model.addAttribute("porudzbine", porudzbinaPage);
 

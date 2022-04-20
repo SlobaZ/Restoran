@@ -134,14 +134,14 @@ public class AdminController {
 	
     
 	    @RequestMapping(value = "/admin/blagajne", method = RequestMethod.GET)
-		public String sveItrazeneBlagajne(@RequestParam(required=false) String datum, 
-							@RequestParam(required=false) Double ukupno, 
+		public String sveItrazeneBlagajne(@RequestParam(required=false) String datum,
 							HttpServletRequest request, Model model) {
 		    
 	    	    	
 			int page = 0;
 			int size = 5;
 			
+						
 		    Page<Blagajna> blagajnaPage = null;
 		
 				if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
@@ -151,10 +151,10 @@ public class AdminController {
 				if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
 					size = Integer.parseInt(request.getParameter("size"));
 				}
-				if(datum!=null || ukupno!=null ) {
-					blagajnaPage = blagajnaService.search(datum,ukupno, page);
+				if(datum!="") {
+					blagajnaPage = blagajnaService.search(datum, page);
 			    }
-			    else {
+				if(datum=="") {
 			    	blagajnaPage = blagajnaRepository.findAll(PageRequest.of(page, size));
 			    }
 			    
