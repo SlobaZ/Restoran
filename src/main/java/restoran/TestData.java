@@ -47,17 +47,17 @@ public class TestData {
 		
 		User user1 = new User();
 		user1.setUsername("Admin");
-		user1.setPassword("$2a$10$hKDVYxLefVHV/vtuPhWD3OigtRyOykRLDdUAp80Z1crSoS1lFqaFS");
+		user1.setPassword("$2a$10$hKDVYxLefVHV/vtuPhWD3OigtRyOykRLDdUAp80Z1crSoS1lFqaFS"); 	// admin
 		user1 = userService.save(user1);
 
 		User user2 = new User();
 		user2.setUsername("Konobar1");
-		user2.setPassword("$2a$10$6K1uK3otA5wBppQ6X3hd9.XrN2FCr24Vp6EERaq4yAyXrkfjOi50q");
+		user2.setPassword("$2a$10$6K1uK3otA5wBppQ6X3hd9.XrN2FCr24Vp6EERaq4yAyXrkfjOi50q"); 	// 123456
 		user2 = userService.save(user2);
 		
 		User user3 = new User();
 		user3.setUsername("Konobar2");
-		user3.setPassword("$2a$10$PhSSh18QwuEZs6mbdI7R2eRg5HBb1CP/ZjM2h0e/10.SpisuN2q72");
+		user3.setPassword("$2a$10$PhSSh18QwuEZs6mbdI7R2eRg5HBb1CP/ZjM2h0e/10.SpisuN2q72"); 	// 654321
 		user3 = userService.save(user3);
 		
 	
