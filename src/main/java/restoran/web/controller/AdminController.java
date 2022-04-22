@@ -66,7 +66,7 @@ public class AdminController {
 	    
 		int page = 0;
 		int size = 5;
-	    
+			    
 	    Page<User> userPage = null;
 	
 			if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
@@ -134,15 +134,17 @@ public class AdminController {
 	
     
 	    @RequestMapping(value = "/admin/blagajne", method = RequestMethod.GET)
-		public String sveItrazeneBlagajne(@RequestParam(required=false) String datum,
-							HttpServletRequest request, Model model) {
+		public String sveItrazeneBlagajne(@RequestParam(value = "datum",required=false) String datum,
+										@RequestParam(value = "ukupno",required=false) Double ukupno, 
+										HttpServletRequest request, Model model) {
 		    
 	    	    	
 			int page = 0;
 			int size = 5;
 			
-						
 		    Page<Blagajna> blagajnaPage = null;
+			
+		
 		
 				if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
 					page = Integer.parseInt(request.getParameter("page")) - 1;
@@ -151,12 +153,18 @@ public class AdminController {
 				if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
 					size = Integer.parseInt(request.getParameter("size"));
 				}
-				if(datum!="") {
-					blagajnaPage = blagajnaService.search(datum, page);
+				
+				if( datum !="" || ukupno!=null ) {
+					if(datum=="") {
+						datum=null;
+					}
+					blagajnaPage = blagajnaService.search(datum,ukupno, page);			
 			    }
-				if(datum=="") {
+				
+				if(datum==null && ukupno==null || datum=="" && ukupno==null) {
 			    	blagajnaPage = blagajnaRepository.findAll(PageRequest.of(page, size));
 			    }
+				
 			    
 		    model.addAttribute("blagajne", blagajnaPage);
 		    return "/admin/blagajna-sve";

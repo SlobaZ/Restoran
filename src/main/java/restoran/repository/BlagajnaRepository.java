@@ -15,10 +15,12 @@ import restoran.model.Blagajna;
 public interface BlagajnaRepository extends JpaRepository<Blagajna, Integer> {
 	
 	@Query("SELECT b FROM Blagajna b WHERE "
-			+ "(:datum IS NULL or b.datum like :datum ) "
+			+ "(:datum IS NULL or b.datum like :datum ) AND "
+			+ "(:ukupno IS NULL or b.ukupno = :ukupno ) "
 			)
 	Page<Blagajna> search(
 			@Param("datum") String datum, 
+			@Param("ukupno") Double ukupno, 
 			Pageable pageRequest);
 	
 	Blagajna findByDatum(String datum);
